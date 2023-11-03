@@ -11,6 +11,7 @@ public class TestMercadoDeObjetos {
 	
 	MercadoDeObjetos m;
 	Persona persona;
+	Cliente cli;
 	Producto producto;
 	Pedido pedido;
 	
@@ -21,8 +22,8 @@ public class TestMercadoDeObjetos {
 	
 	@Test
 	public void testRegistrosDePersonasYProductos() {
-		persona = m.registrarCliente("Compra", "calle 2");
-		assertTrue(m.getClientes().contains(persona));
+		cli = m.registrarCliente("Compra", "calle 2");
+		assertTrue(m.getClientes().contains(cli));
 		persona = m.registrarVendedor("Vende", "calle 1");
 		assertTrue(m.getVendedores().contains(persona));
 		producto = m.ponerProductoEnVenta("lata", "aluminio", 2000, 25, persona);
@@ -33,22 +34,22 @@ public class TestMercadoDeObjetos {
 	public void testBusquedas() {
 		persona = m.registrarVendedor("Vende", "calle 1");
 		assertEquals(persona, m.buscarVendedor("Vende"));
-		persona = m.registrarCliente("Compra", "calle 2");
-		assertEquals(persona, m.buscarCliente("Compra"));
+		cli = m.registrarCliente("Compra", "calle 2");
+		assertEquals(cli, m.buscarCliente("Compra"));
 		producto = m.ponerProductoEnVenta("lata", "aluminio", 2000, 25, persona);
 		assertTrue(m.buscarProductos("lata").contains(producto));
 	}
 	
 	@Test
 	public void testPedido() {
-		persona = m.registrarCliente("Compra", "calle 2");
+		cli = m.registrarCliente("Compra", "calle 2");
 		producto = m.ponerProductoEnVenta("lata", "aluminio", 2000, 25, persona);
-		pedido = m.crearPedido(persona, producto, 10, "al contado", "retirar en comercio");
+		pedido = m.crearPedido(cli, producto, 10, "al contado", "retirar en comercio");
 		assertEquals(20000, m.calcularCosto(pedido));
-		assertNull(m.crearPedido(persona, producto, 35, "al contado", "retirar en comercio"));
-		pedido = m.crearPedido(persona, producto, 10, "6 cuotas", "retirar en sucursal del correo");
+		assertNull(m.crearPedido(cli, producto, 35, "al contado", "retirar en comercio"));
+		pedido = m.crearPedido(cli, producto, 10, "6 cuotas", "retirar en sucursal del correo");
 		assertEquals(24050, m.calcularCosto(pedido));
-		pedido = m.crearPedido(persona, producto, 10, "al contado", "express a domicilio");
+		pedido = m.crearPedido(cli, producto, 10, "al contado", "express a domicilio");
 		assertEquals(20050, m.calcularCosto(pedido));
 	}
 }
