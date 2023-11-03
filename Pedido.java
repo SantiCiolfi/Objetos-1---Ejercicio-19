@@ -1,14 +1,6 @@
 package objetos1.Ejercicio_19;
 
-public class Pedido {
-	
-	private Persona cliente;
-	private Producto producto;
-	private int cantidad;
-	private String pago;
-	private String envio;
-	
-	public Pedido(Persona cliente, Producto producto, int cantidad, String pago, String envio) {
+public Pedido(Cliente cliente, Producto producto, int cantidad, String pago, String envio) {
 		this.cliente = cliente;
 		this.producto = producto;
 		this.cantidad = cantidad;
