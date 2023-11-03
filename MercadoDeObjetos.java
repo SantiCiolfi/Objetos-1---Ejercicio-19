@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class MercadoDeObjetos {
 	
-	private List<Persona> clientes;
+	private List<Cliente> clientes;
 	private List<Persona> vendedores;
 	private List<Producto> productos;
 	private List<Pedido> pedidos;
@@ -18,10 +18,10 @@ public class MercadoDeObjetos {
 		this.pedidos =new ArrayList<>();
 	}
 	
-	public Persona registrarCliente(String nombre, String direccion) {
-		Persona unaPersona = new Persona (nombre, direccion);
-		this.clientes.add(unaPersona);
-		return unaPersona;
+	public Cliente registrarCliente(String nombre, String direccion) {
+		Cliente unCliente = new Cliente (nombre, direccion);
+		this.clientes.add(unCliente);
+		return unCliente;
 	}
 	
 	public Persona registrarVendedor(String nombre, String direccion) {
@@ -30,7 +30,7 @@ public class MercadoDeObjetos {
 		return unaPersona;
 	}
 	
-	public Persona buscarCliente(String nombre) {
+	public Cliente buscarCliente(String nombre) {
 		return this.clientes.stream().filter(cliente -> cliente.compararNombre(nombre)).findFirst().orElse(null);
 	}
 	
@@ -39,7 +39,7 @@ public class MercadoDeObjetos {
 	}
 	
 	public Producto ponerProductoEnVenta(String nombre, String descripcion, double precio, int cantidad, Persona vendedor) {
-		Producto producto = new Producto(nombre, descripcion, precio, cantidad,  vendedor);
+		Producto producto = new Producto(nombre, descripcion, precio, cantidad, vendedor);
 		this.productos.add(producto);
 		return producto;
 	}
@@ -48,11 +48,12 @@ public class MercadoDeObjetos {
 		return this.productos.stream().filter(producto -> producto.compararNombre(nombre)).collect(Collectors.toList());
 	}
 	
-	public Pedido crearPedido(Persona unCliente, Producto unProducto, int cantidad, String pago, String envio) {
+	public Pedido crearPedido(Cliente unCliente, Producto unProducto, int cantidad, String pago, String envio) {
 		Pedido pedido = null;
 		if(unProducto.compararCantidades(cantidad)) {
 			pedido = new Pedido( unCliente,  unProducto,  cantidad,  pago,  envio);
 			this.pedidos.add(pedido);
+			unCliente.agregarPedido(pedido);
 		}
 		return pedido;
 	}
@@ -61,7 +62,7 @@ public class MercadoDeObjetos {
 		return unPedido.calcularCosto();
 	}
 
-	public List<Persona> getClientes() {
+	public List<Cliente> getClientes() {
 		return clientes;
 	}
 
